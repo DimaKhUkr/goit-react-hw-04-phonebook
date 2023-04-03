@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 
 export function App() {
   const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+  const [filterData, setFilterData] = useState('');
 
   const firstRender = useRef(true);
   const didupd = useRef(0);
@@ -27,7 +27,6 @@ export function App() {
       return console.log('первый нах');
     }
     console.log(firstRender.current);
-
     console.log(didupd.current + 1);
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
@@ -49,7 +48,7 @@ export function App() {
   };
 
   const visibleContacts = () => {
-    const lowCaseFilter = filter.toLowerCase();
+    const lowCaseFilter = filterData.toLowerCase();
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(lowCaseFilter)
     );
@@ -64,7 +63,10 @@ export function App() {
       <h1>Phonebook</h1>
       <AddContact onSubmit={data => AddContactMarckup(data)} />
       <h2>Contacts</h2>
-      <Filter value={filter} onFilter={e => setFilter(e.currentTarget.value)} />
+      <Filter
+        value={filterData}
+        onFilter={e => setFilterData(e.currentTarget.value)}
+      />
       <ContactsList
         onClickDelBtn={onClickDelBtn}
         contacts={visibleContacts()}
