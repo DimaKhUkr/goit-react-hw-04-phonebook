@@ -24,7 +24,7 @@ export function AddContact({ onSubmit }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(dataState);
+    // console.log(dataState);
     onSubmit(dataState);
     reset();
   };

@@ -24,10 +24,10 @@ export function App() {
     if (firstRender.current) {
       console.log(firstRender.current);
       firstRender.current = false;
-      return console.log('первый нах');
+      return console.log('первый render');
     }
     console.log(firstRender.current);
-    console.log(didupd.current + 1);
+    console.log((didupd.current += 1));
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
