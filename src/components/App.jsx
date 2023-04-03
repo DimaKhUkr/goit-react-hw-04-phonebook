@@ -2,71 +2,70 @@ import { AddContact } from './AddContact/AddContact';
 import { ContactsList } from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
 // import contacts from '../Data/contacts';
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { nanoid } from 'nanoid';
-export class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
-  componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    return contacts && this.setState({ contacts: JSON.parse(contacts) });
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+
+export function App() {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
+
+  const firstRender = useRef(true);
+  const didupd = useRef(0);
+
+  useEffect(() => {
+    const contactsFromLS = localStorage.getItem('contacts');
+    console.log(contactsFromLS);
+    if (contactsFromLS) {
+      return setContacts(JSON.parse(contactsFromLS));
     }
-  }
+  }, []);
 
-  DataHandleSubmit = data => this.AddContactMarckup(data);
+  useEffect(() => {
+    if (firstRender.current) {
+      console.log(firstRender.current);
+      firstRender.current = false;
+      return console.log('первый нах');
+    }
+    console.log(firstRender.current);
 
-  AddContactMarckup = ({ name, number }) => {
+    console.log(didupd.current + 1);
+    // localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [didupd]);
+
+  // const DataHandleSubmit = data => AddContactMarckup(data);
+
+  const AddContactMarckup = ({ name, number }) => {
     const newContact = {
       id: nanoid(),
       name,
       number,
     };
-    console.log(this.state.contacts);
-    console.log(newContact);
-    this.state.contacts.find(
+
+    contacts.find(
       ({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
     )
       ? alert('Этот чувак уже есть в книге бро')
-      : this.setState(prevState => ({
-          contacts: [newContact, ...prevState.contacts],
-        }));
+      : setContacts([newContact, ...contacts]);
   };
 
-  onFilterChange = e => {
-    this.setState({ filter: e.currentTarget.value });
-  };
-
-  visibleContacts = () => {
-    const lowCaseFilter = this.state.filter.toLowerCase();
-    return this.state.contacts.filter(contact =>
+  const visibleContacts = () => {
+    const lowCaseFilter = filter.toLowerCase();
+    return contacts.filter(contact =>
       contact.name.toLowerCase().includes(lowCaseFilter)
     );
   };
 
-  onClickDelBtn = currentID => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== currentID),
-    }));
+  const onClickDelBtn = currentID => {
+    setContacts(contacts.filter(contact => contact.id !== currentID));
   };
 
-  render() {
-    return (
-      <div>
-        <h1>Phonebook</h1>
-        <AddContact onSubmit={this.DataHandleSubmit} />
-        <h2>Contacts</h2>
-        <Filter value={this.state.filter} onFilter={this.onFilterChange} />
-        <ContactsList
-          onClickDelBtn={this.onClickDelBtn}
-          contacts={this.visibleContacts()}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>Phonebook</h1>
+      <AddContact onSubmit={data => AddContactMarckup(data)} />
+      <h2>Contacts</h2>
+      <Filter value={filter} onFilter={e => setFilter(e.currentTarget.value)} />
+      <ContactsList onClickDelBtn={onClickDelBtn} contacts={contacts} />
+    </div>
+  );
 }
