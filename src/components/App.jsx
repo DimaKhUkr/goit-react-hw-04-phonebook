@@ -14,7 +14,7 @@ export function App() {
 
   useEffect(() => {
     const contactsFromLS = localStorage.getItem('contacts');
-    console.log(contactsFromLS);
+    console.log(`Данные в локал сторидже:${contactsFromLS}`);
     if (contactsFromLS) {
       return setContacts(JSON.parse(contactsFromLS));
     }
@@ -22,12 +22,12 @@ export function App() {
 
   useEffect(() => {
     if (firstRender.current) {
-      console.log(firstRender.current);
+      console.log(`Реф первого рендера ${firstRender.current}`);
       firstRender.current = false;
       return console.log('первый render');
     }
-    console.log(firstRender.current);
-    console.log((didupd.current += 1));
+    console.log(`Реф первого рендера ${firstRender.current}`);
+    console.log(`Обновление номер:${(didupd.current += 1)}`);
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
