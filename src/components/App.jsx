@@ -29,8 +29,8 @@ export function App() {
     console.log(firstRender.current);
 
     console.log(didupd.current + 1);
-    // localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [didupd]);
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   // const DataHandleSubmit = data => AddContactMarckup(data);
 
@@ -65,7 +65,10 @@ export function App() {
       <AddContact onSubmit={data => AddContactMarckup(data)} />
       <h2>Contacts</h2>
       <Filter value={filter} onFilter={e => setFilter(e.currentTarget.value)} />
-      <ContactsList onClickDelBtn={onClickDelBtn} contacts={contacts} />
+      <ContactsList
+        onClickDelBtn={onClickDelBtn}
+        contacts={visibleContacts()}
+      />
     </div>
   );
 }
