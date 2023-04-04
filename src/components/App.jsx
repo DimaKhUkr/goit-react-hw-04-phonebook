@@ -16,18 +16,18 @@ export function App() {
     const contactsFromLS = localStorage.getItem('contacts');
     console.log(`Данные в локал сторидже:${contactsFromLS}`);
     if (contactsFromLS) {
-      return setContacts(JSON.parse(contactsFromLS));
+      setContacts(JSON.parse(contactsFromLS));
     }
   }, []);
 
   useEffect(() => {
     if (firstRender.current) {
-      console.log(`Реф первого рендера ${firstRender.current}`);
+      // console.log(`Реф первого рендера ${firstRender.current}`);
       firstRender.current = false;
-      return console.log('первый render');
+      return;
     }
-    console.log(`Реф первого рендера ${firstRender.current}`);
-    console.log(`Обновление номер:${(didupd.current += 1)}`);
+    // console.log(`Реф первого рендера ${firstRender.current}`);
+    // console.log(`Обновление номер:${(didupd.current += 1)}`);
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
