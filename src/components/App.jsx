@@ -2,7 +2,7 @@ import { AddContact } from './AddContact/AddContact';
 import { ContactsList } from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
 // import contacts from '../Data/contacts';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 
 export function App() {
@@ -10,7 +10,6 @@ export function App() {
   const [filterData, setFilterData] = useState('');
 
   const firstRender = useRef(true);
-  const didupd = useRef(0);
 
   useEffect(() => {
     const contactsFromLS = localStorage.getItem('contacts');
