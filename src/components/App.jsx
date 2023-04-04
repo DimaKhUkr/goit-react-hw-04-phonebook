@@ -2,29 +2,31 @@ import { AddContact } from './AddContact/AddContact';
 import { ContactsList } from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
 // import contacts from '../Data/contacts';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { nanoid } from 'nanoid';
 
 export function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(localStorage.getItem('contacts')) ?? [];
+  });
   const [filterData, setFilterData] = useState('');
 
-  const firstRender = useRef(true);
+  // const firstRender = useRef(true);
+
+  // useEffect(() => {
+  //   const contactsFromLS = localStorage.getItem('contacts');
+  //   // console.log(`Данные в локал сторидже:${contactsFromLS}`);
+  //   if (contactsFromLS) {
+  //     setContacts(JSON.parse(contactsFromLS));
+  //   }
+  // }, []);
 
   useEffect(() => {
-    const contactsFromLS = localStorage.getItem('contacts');
-    console.log(`Данные в локал сторидже:${contactsFromLS}`);
-    if (contactsFromLS) {
-      setContacts(JSON.parse(contactsFromLS));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (firstRender.current) {
-      // console.log(`Реф первого рендера ${firstRender.current}`);
-      firstRender.current = false;
-      return;
-    }
+    // if (firstRender.current) {
+    //   // console.log(`Реф первого рендера ${firstRender.current}`);
+    //   firstRender.current = false;
+    //   return;
+    // }
     // console.log(`Реф первого рендера ${firstRender.current}`);
     // console.log(`Обновление номер:${(didupd.current += 1)}`);
     localStorage.setItem('contacts', JSON.stringify(contacts));
